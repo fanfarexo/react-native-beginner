@@ -1,4 +1,6 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 export default function Index() {
   return (
@@ -6,12 +8,29 @@ export default function Index() {
       <View style={styles.city}>
         <Text style={styles.cityName}>SEOUL</Text>
       </View>
-      <View style={styles.weather}>
+      <ScrollView
+        pagingEnabled
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.weather}
+      >
         <View style={styles.day}>
           <Text style={styles.temp}>27º</Text>
           <Text style={styles.desc}>Sunny</Text>
         </View>
-      </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27º</Text>
+          <Text style={styles.desc}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27º</Text>
+          <Text style={styles.desc}>Sunny</Text>
+        </View>
+        <View style={styles.day}>
+          <Text style={styles.temp}>27º</Text>
+          <Text style={styles.desc}>Sunny</Text>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -31,12 +50,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "white",
   },
-  weather: {
-    flex: 3,
-  },
+  weather: {},
   day: {
     flex: 1,
     alignItems: "center",
+    width: SCREEN_WIDTH,
   },
   temp: {
     marginTop: 50,

@@ -1,12 +1,36 @@
+import * as Location from "expo-location";
+import { useEffect, useState } from "react";
 import { Text, View, StyleSheet, ScrollView, Dimensions } from "react-native";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 export default function Index() {
+  const [ok, setOk] = useState(true);
+  const [city, setCity] = useState("Loading...");
+
+  const getLocation = async () => {
+    const { granted } = await Location.requestForegroundPermissionsAsync();
+    if (!granted) {
+      setOk(false);
+    }
+    const {
+      coords: { latitude, longitude },
+    } = await Location.getCurrentPositionAsync({ accuracy: 5 });
+    const location = await Location.reverseGeocodeAsync(
+      { latitude, longitude },
+      { useGoogleMaps: false }
+    );
+    setCity(String(location[0].city));
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.city}>
-        <Text style={styles.cityName}>SEOUL</Text>
+        <Text style={styles.cityName}>{city}</Text>
       </View>
       <ScrollView
         pagingEnabled
